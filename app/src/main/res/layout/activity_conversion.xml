@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.haybankz.cryptoxchange.ui.ConversionActivity"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="2dp"
+        android:layout_marginBottom="8dp">
+
+        <ImageView
+            android:id="@+id/img_conv_crypto"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            tools:src="@mipmap/ic_launcher_round"
+            android:contentDescription="@string/app_name"
+            android:layout_marginTop="4dp"/>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:id="@+id/edit_cryptocurr"
+        app:hintTextAppearance="@style/TextLabel"/>
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="2dp">
+
+        <ImageView
+            android:id="@+id/img_conv_world"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            tools:src="@mipmap/ic_launcher_round"
+            android:contentDescription="@string/app_name"
+            android:layout_marginTop="4dp"/>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_worldcurr"
+        app:hintTextAppearance="@style/TextLabel"/>
+
+
+        </LinearLayout>
+
+
+
+
+</LinearLayout>
