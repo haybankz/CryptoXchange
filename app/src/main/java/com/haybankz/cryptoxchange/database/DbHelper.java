@@ -37,7 +37,8 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_EXCHANGE_TABLE = "CREATE TABLE "+ ExchangeEntry.TABLE_NAME + " (" +
             ExchangeEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             ExchangeEntry.COLUMN_EXCHANGE_CRYPTO + TEXT_TYPE +" NOT NULL"+ COMMA_SEP +
-            ExchangeEntry.COLUMN_EXCHANGE_WORLD + TEXT_TYPE +" NOT NULL" +
+            ExchangeEntry.COLUMN_EXCHANGE_WORLD + TEXT_TYPE +" NOT NULL" + COMMA_SEP +
+            ExchangeEntry.COLUMN_EXCHANGE_RATE + " REAL DEFAULT 0.0" +
 
             " )";
 
@@ -217,9 +218,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(ExchangeEntry.COLUMN_EXCHANGE_WORLD, "NGN");
-        values.put(ExchangeEntry.COLUMN_EXCHANGE_CRYPTO, "BTC");
-        db.insert(ExchangeEntry.TABLE_NAME, null, values);
+//        values.put(ExchangeEntry.COLUMN_EXCHANGE_WORLD, "NGN");
+//        values.put(ExchangeEntry.COLUMN_EXCHANGE_CRYPTO, "BTC");
+//        db.insert(ExchangeEntry.TABLE_NAME, null, values);
 
 //        values.put(ExchangeEntry.COLUMN_EXCHANGE_WORLD, "USD");
 //        values.put(ExchangeEntry.COLUMN_EXCHANGE_CRYPTO, "ETH");

@@ -11,6 +11,10 @@ public class Exchange {
     private String worldCurrency;
     private double rate;
 
+    public Exchange(){
+
+    }
+
     public Exchange(int id,String cryptoCurrency, String worldCurrency, double rate) {
         this.id = id;
         this.cryptoCurrency = cryptoCurrency;

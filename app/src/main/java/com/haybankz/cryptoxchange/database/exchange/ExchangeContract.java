@@ -22,6 +22,7 @@ public class ExchangeContract {
         public final static String _ID = BaseColumns._ID;
         public final static String COLUMN_EXCHANGE_CRYPTO = "crypto_currency";
         public final static String COLUMN_EXCHANGE_WORLD = "world_currency";
+        public final static String COLUMN_EXCHANGE_RATE = "rate";
 
 
 

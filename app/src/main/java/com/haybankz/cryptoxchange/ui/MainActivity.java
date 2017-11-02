@@ -1,6 +1,5 @@
 package com.haybankz.cryptoxchange.ui;
 
-import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
@@ -8,27 +7,25 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -36,16 +33,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.haybankz.cryptoxchange.ClickListener;
+import com.haybankz.cryptoxchange.listeners.ClickListener;
 import com.haybankz.cryptoxchange.ExchangeLoader;
-import com.haybankz.cryptoxchange.ExchangeRecyclerAdapter;
+import com.haybankz.cryptoxchange.adapters.ExchangeRecyclerAdapter;
 import com.haybankz.cryptoxchange.R;
-import com.haybankz.cryptoxchange.RecyclerTouchListener;
+import com.haybankz.cryptoxchange.listeners.RecyclerTouchListener;
 import com.haybankz.cryptoxchange.model.Exchange;
 import com.haybankz.cryptoxchange.utils.CurrencyUtils;
 import com.haybankz.cryptoxchange.database.exchange.ExchangeContract.ExchangeEntry;
+import com.haybankz.cryptoxchange.utils.ExchangeUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Exchange>> {
 
@@ -56,10 +59,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     ExchangeRecyclerAdapter exchangeRecycleradapter;
 
 
-    View emptyView;
-    View progressBar;
-    View statusTextView;
+//    View emptyView;
+//    View progressBar;
+//    View statusTextView;
     View noExchangeView;
+
+    TextView updateTimeTextView;
 
 
     ConnectivityManager connectivityManager;
@@ -68,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     Context context;
 //    Dialog dialog;
 
+    ArrayList<Exchange> oldExchange;
 
 
     @Override
@@ -75,6 +81,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        context = this;
+
+        oldExchange = ExchangeUtils.getExchangeListFromDb(context.getContentResolver());
 
 //        getSupportActionBar().setIcon(R.drawable.ic_title);
 
@@ -84,11 +93,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 
+        swipeRefreshLayout.setRefreshing(true);
+
         exchangeRecyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        progressBar =  findViewById(R.id.progressBar);
-        statusTextView = (View) findViewById(R.id.status_view);
-        emptyView =  (View) findViewById(R.id.empty_view);
+//        progressBar =  findViewById(R.id.progressBar);
+//        statusTextView = (View) findViewById(R.id.status_view);
+//        emptyView =  (View) findViewById(R.id.empty_view);
         noExchangeView = (View) findViewById(R.id.no_exchange_view);
+
+        updateTimeTextView = (TextView) findViewById(R.id.updateTimeText);
 
 //        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2&3);
         StaggeredGridLayoutManager staggeredGridLayoutManager =
@@ -98,9 +111,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
         //instantiate exchange recycler exchangeRecycleradapter
-         exchangeRecycleradapter = new ExchangeRecyclerAdapter(this, new ArrayList<Exchange>());
+         exchangeRecycleradapter = new ExchangeRecyclerAdapter(this, oldExchange);
 
-        context = this;
+         updateTimeTextView.setText(getUpdateTime());
+
+        Log.e("UpdateTime--read", "last updated: "+ getUpdateTime());
+
+
+
 
 
 
@@ -312,11 +330,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
             // show no internet status
-            exchangeRecyclerView.setVisibility(View.GONE);
-            emptyView.setVisibility(View.GONE);
-            progressBar.setVisibility(View.GONE);
+            exchangeRecyclerView.setVisibility(View.VISIBLE);
+//            emptyView.setVisibility(View.GONE);
+//            progressBar.setVisibility(View.GONE);
             noExchangeView.setVisibility(View.GONE);
-            statusTextView.setVisibility(View.VISIBLE);
+//            statusTextView.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setRefreshing(false);
+
+            Toast.makeText(this, "Cant load feed", Toast.LENGTH_SHORT).show();
 
 
         }
@@ -385,17 +406,25 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             getLoaderManager().restartLoader(1, null, this);
 
+
         }else{
 
-            exchangeRecyclerView.setVisibility(View.GONE);
-            emptyView.setVisibility(View.GONE);
-            progressBar.setVisibility(View.GONE);
+            exchangeRecyclerView.setVisibility(View.VISIBLE);
+//            emptyView.setVisibility(View.GONE);
+//            progressBar.setVisibility(View.GONE);
             noExchangeView.setVisibility(View.GONE);
-            statusTextView.setVisibility(View.VISIBLE);
+//            statusTextView.setVisibility(View.VISIBLE);
+
+
+            getLoaderManager().restartLoader(1, null, this);
+
             //stop refreshing
             swipeRefreshLayout.setRefreshing(false);
 
+            Toast.makeText(this, "Cant load feed", Toast.LENGTH_SHORT).show();
+
         }
+
     }
 
 
@@ -434,11 +463,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
 
-
+            noExchangeView.setVisibility(View.GONE);
+            exchangeRecyclerView.setVisibility(View.VISIBLE);
 
 
             //show refresh icon
             swipeRefreshLayout.setRefreshing(true);
+
 
            Snackbar snackbar =  Snackbar.make(swipeRefreshLayout, "Exchange card added", Snackbar.LENGTH_LONG);
             View sbView = snackbar.getView();
@@ -481,6 +512,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<ArrayList<Exchange>> onCreateLoader(int i, Bundle bundle) {
 //        Toast.makeText(this, "Loader creation starts", Toast.LENGTH_LONG).show();
+        oldExchange = ExchangeUtils.getExchangeListFromDb(context.getContentResolver());
 
         return new ExchangeLoader(this);
 
@@ -489,7 +521,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<ArrayList<Exchange>> loader, ArrayList<Exchange> exchanges) {
-        progressBar.setVisibility(View.GONE);
+//        progressBar.setVisibility(View.GONE);
 
         if (exchanges != null) {
 
@@ -500,30 +532,48 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 exchangeRecycleradapter.addAll(exchanges);
 
                 exchangeRecyclerView.setVisibility(View.VISIBLE);
-                emptyView.setVisibility(View.GONE);
-                progressBar.setVisibility(View.GONE);
-                statusTextView.setVisibility(View.GONE);
+//                emptyView.setVisibility(View.GONE);
+//                progressBar.setVisibility(View.GONE);
+//                statusTextView.setVisibility(View.GONE);
                 noExchangeView.setVisibility(View.GONE);
 
 //                Toast.makeText(this, "Exchange rates refreshed", Toast.LENGTH_SHORT).show();
 
+
+                Calendar calendar = Calendar.getInstance();
+
+
+                long date = calendar.getTime().getTime();
+
+                String dateString = getDateString(date);
+
+                updateTimeTextView.setText(dateString);
+
+                updateTime(dateString);
+
+                runLayoutAnimation();
+
+
             }else{
 
-                exchangeRecyclerView.setVisibility(View.GONE);
-                emptyView.setVisibility(View.GONE);
-                progressBar.setVisibility(View.GONE);
-                statusTextView.setVisibility(View.GONE);
+//                exchangeRecyclerView.setVisibility(View.GONE);
+//                emptyView.setVisibility(View.GONE);
+//                progressBar.setVisibility(View.GONE);
+//                statusTextView.setVisibility(View.GONE);
                 noExchangeView.setVisibility(View.VISIBLE);
+//                Toast.makeText(this, "Cant refresh feed", Toast.LENGTH_SHORT).show();
 
             }
 
 
         } else {
 
-            exchangeRecyclerView.setVisibility(View.GONE);
-            emptyView.setVisibility(View.VISIBLE);
-            progressBar.setVisibility(View.GONE);
-            statusTextView.setVisibility(View.GONE);
+            exchangeRecyclerView.setVisibility(View.VISIBLE);
+            Toast.makeText(this, "Cant refresh feed", Toast.LENGTH_SHORT).show();
+
+//            emptyView.setVisibility(View.VISIBLE);
+//            progressBar.setVisibility(View.GONE);
+//            statusTextView.setVisibility(View.GONE);
             noExchangeView.setVisibility(View.GONE);
 
         }
@@ -531,6 +581,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         swipeRefreshLayout.setRefreshing(false);
 
 
+
+
+
+//        ExchangeUtils.updateExchangeRate(exchangeRecycleradapter.getAllExchanges());
 
     }
 
@@ -541,10 +595,48 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     }
 
+    public String getDateString(long dateInTimeMillis) {
+        Date date = new Date(dateInTimeMillis);
+//        String dateString = "";
+
+        String format = "dd MMM, yyyy hh:mm:ss a";
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+        // System.err.format("%40s %s\n", format, dateFormat.format(date));
 
 
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+1"));
+
+        return String.format("%30s %s", "", dateFormat.format(date));
+    }
 
 
+    public void updateTime(String date){
+        SharedPreferences sharedPreferences = getSharedPreferences("cryptoxchange", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("lastUpdate", date);
+
+        editor.apply();
+
+        Log.e("UpdateTime--write", "last updated: "+ date);
+    }
+
+
+    public String getUpdateTime(){
+        SharedPreferences sharedPreferences = getSharedPreferences("cryptoxchange", Context.MODE_PRIVATE);
+
+
+        return sharedPreferences.getString("lastUpdate","");
+    }
+
+
+    private void runLayoutAnimation(){
+        final Context context = exchangeRecyclerView.getContext();
+        final LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_bottom);
+
+        exchangeRecyclerView.setLayoutAnimation(controller);
+        exchangeRecyclerView.getAdapter().notifyDataSetChanged();
+        exchangeRecyclerView.scheduleLayoutAnimation();
+    }
 
 
 

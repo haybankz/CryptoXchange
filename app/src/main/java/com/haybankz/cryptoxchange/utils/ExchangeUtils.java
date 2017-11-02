@@ -1,6 +1,7 @@
 package com.haybankz.cryptoxchange.utils;
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
@@ -17,13 +18,17 @@ import java.util.Map;
 
 public class ExchangeUtils {
 
+    private static ContentResolver mContentResolver;
 
-    public static List<Exchange> getExchangeListFromDb(ContentResolver contentResolver) {
 
-        List<Exchange> exchanges = new ArrayList<>();
+    public static ArrayList<Exchange> getExchangeListFromDb(ContentResolver contentResolver) {
+
+        mContentResolver = contentResolver;
+
+        ArrayList<Exchange> exchanges = new ArrayList<>();
 
         String[] projection = {ExchangeEntry._ID, ExchangeEntry.COLUMN_EXCHANGE_CRYPTO,
-                ExchangeEntry.COLUMN_EXCHANGE_WORLD};
+                ExchangeEntry.COLUMN_EXCHANGE_WORLD, ExchangeEntry.COLUMN_EXCHANGE_RATE};
 
 
         Cursor c = contentResolver.query(ExchangeEntry.CONTENT_URI, projection, null, null, null);
@@ -33,8 +38,9 @@ public class ExchangeUtils {
             int id = c.getInt(c.getColumnIndexOrThrow(ExchangeEntry._ID));
             String crypto = c.getString(c.getColumnIndexOrThrow(ExchangeEntry.COLUMN_EXCHANGE_CRYPTO));
             String world = c.getString(c.getColumnIndexOrThrow(ExchangeEntry.COLUMN_EXCHANGE_WORLD));
+            double rate = c.getDouble(c.getColumnIndexOrThrow(ExchangeEntry.COLUMN_EXCHANGE_RATE));
 
-            Exchange exchange = new Exchange(id, crypto, world);
+            Exchange exchange = new Exchange(id, crypto, world, rate);
             exchanges.add(exchange);
 
         }
@@ -70,11 +76,11 @@ public class ExchangeUtils {
     }
 
 
-    public static ArrayList<Exchange> getExchangeListWithRate(Context context) {
+    public static ArrayList<Exchange> getExchangeRates(Context context) {
 
-        List<Exchange> rateLessExchange = getExchangeListFromDb(context.getContentResolver());
+        List<Exchange> oldExchangeRate = getExchangeListFromDb(context.getContentResolver());
 
-        if (rateLessExchange.size() > 0) {
+        if (oldExchangeRate.size() > 0) {
 
             ArrayList<String> cryptos = CurrencyUtils.getCryptoCurrencies(context.getContentResolver());
 
@@ -86,10 +92,11 @@ public class ExchangeUtils {
             if (exchangeRateMap.size() > 0) {
 
 
-                ArrayList<Exchange> exchangesWithRate = getRateFromMap(rateLessExchange, exchangeRateMap);
+                ArrayList<Exchange> newExchangeRate = getRateFromMap(oldExchangeRate, exchangeRateMap);
 
+//                updateExchangeRates(newExchangeRate);
 
-                return exchangesWithRate;
+                return newExchangeRate;
 
             } else {
 
@@ -99,6 +106,28 @@ public class ExchangeUtils {
 
         }
         return new ArrayList<>();
+    }
+
+
+//    public static void updateExchangeRate(ArrayList<Exchange> exchanges ){
+
+        public static void updateExchangeRate(Exchange exchange ){
+
+//        for(Exchange exchange : exchanges){
+
+            ContentValues value = new ContentValues();
+            value.put(ExchangeEntry.COLUMN_EXCHANGE_RATE, exchange.getRate());
+
+            String selections = ExchangeEntry.COLUMN_EXCHANGE_CRYPTO + "=? and " + ExchangeEntry.COLUMN_EXCHANGE_WORLD + "=? ";
+            String[] selectionArgs = {exchange.getCryptoCurrency(), exchange.getWorldCurrency()};
+
+
+            mContentResolver.update(ExchangeEntry.CONTENT_URI, value, selections, selectionArgs);
+
+
+//        }
+
+
     }
 
 

@@ -53,109 +53,14 @@
             android:visibility="visible">
 
 
-            <!--layout for  empty view-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/empty_view"
-                android:visibility="gone"
-                android:orientation="vertical"
-                android:gravity="center">
-
-
-                <ImageView
-                    android:layout_width="@dimen/icon_size"
-                    android:layout_height="@dimen/icon_size"
-                    android:src="@drawable/ic_connection_error"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Can't get exchange rates at the moment."
-                android:textSize="18sp"/>
-
-                <TextView android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="This might be due to network connection error."
-                    android:textSize="16sp"/>
-
-                <TextView android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Swipe down to refresh."
-                    android:textSize="16sp"/>
-
-            </LinearLayout>
 
 
 
 
-            <!--layout to show when there is no internet connection-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/status_view"
-                android:gravity="center"
-                android:visibility="gone"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="@dimen/icon_size"
-                    android:layout_height="@dimen/icon_size"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/ic_no_internet"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="No internet connection."
-                android:textSize="18sp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Check network connection."
-                    android:textSize="16sp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Swipe down to refresh."
-                    android:textSize="16sp"/>
-
-            </LinearLayout>
 
 
-            <!--layout to show while fetching data from internet-->
-            <LinearLayout
-                android:id="@+id/progressBar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:visibility="visible">
 
-                <ProgressBar
-                    style="@style/Widget.AppCompat.ProgressBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:indeterminate="true"
-                    android:paddingEnd="5dp"
-                    android:paddingStart="5dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingEnd="5dp"
-                    android:paddingStart="5dp"
-                    android:text="Fetching data..."
-                    android:textSize="18sp" />
-
-            </LinearLayout>
 
 
             <!--layout for data-->
@@ -165,12 +70,145 @@
                 android:orientation="vertical">
 
 
+                <!--layout for update time-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="4dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Last updated: "
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/updateTimeText"
+                        android:layout_marginStart="5dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        tools:text="01 Nov, 2017 07:19:04 PM"
+                        android:gravity="start"/>
+
+                </LinearLayout>
+
+
+                <!--layout for  empty view-->
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/empty_view"-->
+                    <!--android:visibility="gone"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:gravity="center">-->
+
+
+                    <!--<ImageView-->
+                    <!--android:layout_width="@dimen/icon_size"-->
+                    <!--android:layout_height="@dimen/icon_size"-->
+                    <!--android:src="@drawable/ic_connection_error"/>-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="Can't get exchange rates at the moment."-->
+                        <!--android:textSize="18sp"/>-->
+
+                    <!--<TextView android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center"-->
+                    <!--android:text="This might be due to network connection error."-->
+                    <!--android:textSize="16sp"/>-->
+
+                    <!--<TextView android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center"-->
+                    <!--android:text="Swipe down to refresh."-->
+                    <!--android:textSize="16sp"/>-->
+
+                <!--</LinearLayout>-->
+
+
+
+                <!--layout to show while fetching data from internet-->
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/progressBar"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:visibility="visible">-->
+
+                    <!--<ProgressBar-->
+                        <!--style="@style/Widget.AppCompat.ProgressBar"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="15dp"-->
+                        <!--android:indeterminate="true"-->
+                        <!--android:paddingEnd="5dp"-->
+                        <!--android:paddingStart="5dp" />-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:paddingEnd="5dp"-->
+                        <!--android:paddingStart="5dp"-->
+                        <!--android:text="Fetching data..."-->
+                        <!--android:textSize="18sp" />-->
+
+                <!--</LinearLayout>-->
+
+
+                <!--layout to show when there is no internet connection-->
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/status_view"-->
+                    <!--android:gravity="center"-->
+                    <!--android:visibility="gone"-->
+                    <!--android:orientation="vertical">-->
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="@dimen/icon_size"-->
+                        <!--android:layout_height="@dimen/icon_size"-->
+                        <!--android:contentDescription="@string/app_name"-->
+                        <!--android:src="@drawable/ic_no_internet"/>-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="No internet connection."-->
+                        <!--android:textSize="18sp"/>-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="Check network connection."-->
+                        <!--android:textSize="16sp"/>-->
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="Swipe down to refresh."-->
+                        <!--android:textSize="16sp"/>-->
+
+                <!--</LinearLayout>-->
+
+
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="gone"
-                    android:clickable="false" />
+                    android:visibility="visible"
+                    android:clickable="false"/>
 
             </LinearLayout>
 
