@@ -152,6 +152,7 @@ public class ExchangeProvider extends ContentProvider {
 
     }
 
+    @Nullable
     private Uri insertExchange(Uri uri, ContentValues values){
 
         SQLiteDatabase database = dbHelper.getWritableDatabase();

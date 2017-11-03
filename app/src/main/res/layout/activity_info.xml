@@ -4,19 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.haybankz.cryptoxchange.ui.InfoActivity"
     android:orientation="vertical"
-    android:paddingBottom="10dp">
+    android:paddingBottom="10dp"
+    tools:context="com.haybankz.cryptoxchange.ui.InfoActivity">
 
     <LinearLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/header"
+        android:background="@color/colorAccent"
         android:orientation="vertical"
-        android:elevation="4dp"
         android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:background="@color/colorAccent" />
+        android:paddingRight="5dp" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -24,18 +23,13 @@
         android:scrollbarStyle="insideOverlay">
 
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="5dp"
-        android:orientation="vertical"
-        android:id="@+id/table_layout"/>
+        <TableLayout
+            android:id="@+id/table_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="5dp" />
 
-    <!--<TableRow-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="0.25"-->
-        <!--android:gravity="center"/>-->
 
     </android.support.v4.widget.NestedScrollView>
 

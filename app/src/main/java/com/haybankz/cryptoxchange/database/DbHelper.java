@@ -60,7 +60,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_EXCHANGE_TABLE);
 
         insertCurrencies(db);
-//        insertExchange(db);
+
     }
 
     @Override
@@ -96,10 +96,6 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(CurrencyEntry.COLUMN_CURRENCY_CATEGORY, CurrencyEntry.CURRENCY_CRYPTO);
         db.insert(CurrencyEntry.TABLE_NAME, null, values);
 
-//        values.put(CurrencyEntry.COLUMN_CURRENCY_NAME, "TBC");
-//        values.put(CurrencyEntry.COLUMN_CURRENCY_FULLNAME, "The Billion coin");
-//        values.put(CurrencyEntry.COLUMN_CURRENCY_CATEGORY, CurrencyEntry.CURRENCY_CRYPTO);
-//        db.insert(CurrencyEntry.TABLE_NAME, null, values);
 
         values.put(CurrencyEntry.COLUMN_CURRENCY_NAME, "NGN");
         values.put(CurrencyEntry.COLUMN_CURRENCY_FULLNAME, "Nigerian Naira");
@@ -213,35 +209,5 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 
-    /*Populate exchange with one exchange(BTC and NGN) */
-    public void insertExchange(SQLiteDatabase db){
-
-        ContentValues values = new ContentValues();
-
-//        values.put(ExchangeEntry.COLUMN_EXCHANGE_WORLD, "NGN");
-//        values.put(ExchangeEntry.COLUMN_EXCHANGE_CRYPTO, "BTC");
-//        db.insert(ExchangeEntry.TABLE_NAME, null, values);
-
-//        values.put(ExchangeEntry.COLUMN_EXCHANGE_WORLD, "USD");
-//        values.put(ExchangeEntry.COLUMN_EXCHANGE_CRYPTO, "ETH");
-//        db.insert(ExchangeEntry.TABLE_NAME, null, values);
-
-//        values.put(ExchangeEntry.COLUMN_EXCHANGE_WORLD, "NGN");
-//        values.put(ExchangeEntry.COLUMN_EXCHANGE_CRYPTO, "ETH");
-//        db.insert(ExchangeEntry.TABLE_NAME, null, values);
-
-//        values.put(ExchangeEntry.COLUMN_EXCHANGE_WORLD, "EUR");
-//        values.put(ExchangeEntry.COLUMN_EXCHANGE_CRYPTO, "ETH");
-//        db.insert(ExchangeEntry.TABLE_NAME, null, values);
-//
-//        values.put(ExchangeEntry.COLUMN_EXCHANGE_WORLD, "NGN");
-//        values.put(ExchangeEntry.COLUMN_EXCHANGE_CRYPTO, "BTC");
-//        db.insert(ExchangeEntry.TABLE_NAME, null, values);
-//
-//        values.put(ExchangeEntry.COLUMN_EXCHANGE_WORLD, "EUR");
-//        values.put(ExchangeEntry.COLUMN_EXCHANGE_CRYPTO, "BTC");
-//        db.insert(ExchangeEntry.TABLE_NAME, null, values);
-
-    }
 
 }

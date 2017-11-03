@@ -49,23 +49,19 @@ public class ApiUtils {
     public static Map<String, Map<String, Double>> extractMessageFromJson(String jsonResponse) {
 
         Map<String, Map<String, Double>> currMap = new HashMap<>();
+
         if (TextUtils.isEmpty(jsonResponse) || TextUtils.equals(jsonResponse, "")) {
 
             return currMap;
         } else {
             try {
-//                currMap = new HashMap<>();
 
                 JSONObject jsonRootObject = new JSONObject(jsonResponse);
 
                 for( String crypt : cryptoCur){
 
-
-
-//                    Log.e("jsonRootObject:", jsonRootObject.toString());
-
                     JSONObject cryptObject = jsonRootObject.optJSONObject(crypt);
-//                    Log.e("cryptArray", cryptObject.toString());
+
                     Map<String, Double> rateMap = new HashMap<>();
 
                     for(String world : worldCur){
@@ -77,10 +73,9 @@ public class ApiUtils {
                     currMap.put(crypt, rateMap);
                 }
 
-
-
             } catch (JSONException e) {
-                Log.e("Utils", "error parsing the exchange JSON result", e);
+
+                Log.e("ApiUtils", "error parsing the exchange JSON result", e);
 
             }
         }
@@ -104,15 +99,10 @@ public class ApiUtils {
 
             jsonResponse = getJsonResponse(urlString);
 
-
-//            Log.e("MessageAsyncTask", jsonResponse);
-
         } catch (IOException e) {
 
-            Log.e("MessageAsyncTask", "Error parsing the exchange json result", e);
+            Log.e("ApiUtil", "Error parsing the exchange json result", e);
         }
-
-//        Log.e("MessageAsyncTask", "t\n" + jsonResponse + "\n\nyy");
 
         Map<String, Map<String, Double>>  curr = extractMessageFromJson(jsonResponse);
 
@@ -139,9 +129,6 @@ public class ApiUtils {
         }
 
 
-//        Log.d("CryptoCompare","Cryptos: " + cryptoString);
-
-
         // convert worldCur list to  string
         for(int i = 0; i < worldCur.size(); i++){
             if(i == 0){
@@ -152,21 +139,13 @@ public class ApiUtils {
             }
         }
 
-//        Log.d("CryptoCompare","WorldCur: " + worldCurString);
-
-        String finalUrl = BASE_URL + cryptoString + SUPPLEMENTARY_URL + worldCurString;
-
-
-//        Log.d("CryptoCompare","Final Url: " + finalUrl);
-
-        return finalUrl;
+        return BASE_URL + cryptoString + SUPPLEMENTARY_URL + worldCurString;
     }
 
     public static String getJsonResponse(String url) throws IOException{
 
         String jsonResponse = "";
         OkHttpClient client = new OkHttpClient();
-
 
         Request request = new Request.Builder()
                 .url(url)
@@ -175,7 +154,7 @@ public class ApiUtils {
         Response response = client.newCall(request).execute();
 
         jsonResponse = response.body().string();
-//        Log.e("Response", jsonResponse);
+
         return jsonResponse;
     }
     

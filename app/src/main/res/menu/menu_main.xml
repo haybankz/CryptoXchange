@@ -4,9 +4,9 @@
 
     <item
         android:id="@+id/action_info"
+        android:icon="@drawable/ic_details"
         android:orderInCategory="1"
-        android:title="Info"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_details"/>
+        android:title="@string/info"
+        app:showAsAction="ifRoom" />
 
 </menu>

@@ -5,32 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.haybankz.cryptoxchange.ui.ConversionActivity"
-    android:padding="20dp">
+    android:padding="20dp"
+    tools:context="com.haybankz.cryptoxchange.ui.ConversionActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:orientation="horizontal"
-        android:padding="2dp"
-        android:layout_marginBottom="8dp">
+        android:padding="2dp">
 
         <ImageView
             android:id="@+id/img_conv_crypto"
             android:layout_width="48dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
-            tools:src="@mipmap/ic_launcher_round"
+            android:layout_marginTop="4dp"
             android:contentDescription="@string/app_name"
-            android:layout_marginTop="4dp"/>
+            tools:src="@mipmap/ic_launcher_round" />
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/edit_cryptocurr"
+            android:layout_width="match_parent"
 
-        android:id="@+id/edit_cryptocurr"
-        app:hintTextAppearance="@style/TextLabel"/>
-
+            android:layout_height="wrap_content"
+            app:hintTextAppearance="@style/TextLabel" />
 
 
     </LinearLayout>
@@ -47,20 +46,18 @@
             android:layout_width="48dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
-            tools:src="@mipmap/ic_launcher_round"
+            android:layout_marginTop="4dp"
             android:contentDescription="@string/app_name"
-            android:layout_marginTop="4dp"/>
+            tools:src="@mipmap/ic_launcher_round" />
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_worldcurr"
-        app:hintTextAppearance="@style/TextLabel"/>
-
-
-        </LinearLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/edit_worldcurr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintTextAppearance="@style/TextLabel" />
 
 
+    </LinearLayout>
 
 
 </LinearLayout>

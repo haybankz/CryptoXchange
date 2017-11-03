@@ -50,18 +50,15 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Exchange>> {
 
-//    CoordinatorLayout coordinateLayout;
+
     FloatingActionButton fab;
     SwipeRefreshLayout swipeRefreshLayout;
     RecyclerView exchangeRecyclerView;
     ExchangeRecyclerAdapter exchangeRecycleradapter;
 
-
-//    View emptyView;
-//    View progressBar;
-//    View statusTextView;
     View noExchangeView;
 
     TextView updateTimeTextView;
@@ -71,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     NetworkInfo networkInfo;
 
     Context context;
-//    Dialog dialog;
 
     ArrayList<Exchange> oldExchange;
 
@@ -85,8 +81,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         oldExchange = ExchangeUtils.getExchangeListFromDb(context.getContentResolver());
 
-//        getSupportActionBar().setIcon(R.drawable.ic_title);
-
 
         //Instantiate widgets, layout, exchangeRecycleradapter and context
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -96,17 +90,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         swipeRefreshLayout.setRefreshing(true);
 
         exchangeRecyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-//        progressBar =  findViewById(R.id.progressBar);
-//        statusTextView = (View) findViewById(R.id.status_view);
-//        emptyView =  (View) findViewById(R.id.empty_view);
+
         noExchangeView = (View) findViewById(R.id.no_exchange_view);
 
         updateTimeTextView = (TextView) findViewById(R.id.updateTimeText);
 
-//        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2&3);
         StaggeredGridLayoutManager staggeredGridLayoutManager =
-                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL|StaggeredGridLayoutManager.HORIZONTAL);
-//        exchangeRecyclerView.setLayoutManager(gridLayoutManager);
+                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+
         exchangeRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
 
@@ -115,107 +106,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
          updateTimeTextView.setText(getUpdateTime());
 
-        Log.e("UpdateTime--read", "last updated: "+ getUpdateTime());
-
-
-
-
-
-
 
         //On click listener for floating action button
         fab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //instantiate a new dialog
-               final Dialog dialog = new Dialog(context);
-
-                //dialog shouldnt disappear when outer screen is clicked/pressed
-                dialog.setCancelable(false);
-
-                //set custom view for dialog
-                dialog.setContentView(R.layout.dialog_add_exchange);
-
-
-                //instantiate spinners for cryptocurrencies and worldcurrencies respectively
-                final Spinner cSpinner =  dialog.findViewById(R.id.spinner_crypto);
-                final Spinner wSpinner = dialog.findViewById(R.id.spinner_world);
-
-
-                //Instantiate buttons
-                Button cancelBtn = (Button) dialog.findViewById(R.id.btn_cancel);
-                Button saveBtn = (Button) dialog.findViewById(R.id.btn_add);
-
-
-                //get String list of cryptocurrencies from db
-                ArrayList<String> crypt = CurrencyUtils.getCryptoCurrencies(context.getContentResolver());
-
-                //convert list to string array
-                String[] cryptos = crypt.toArray(new String[crypt.size()]);
-
-
-                //get String list of worldcurrencies from db
-                ArrayList<String> world = CurrencyUtils.getWorldCurrencies(context.getContentResolver());
-
-                //convert list to string array
-                String[] worldCurr = world.toArray(new String[world.size()]);
-
-
-                //create arrayadapter using cryptocurrencies string array
-                ArrayAdapter<String> cryptosAdapter = new ArrayAdapter<String>(context, R.layout.spinner_item, cryptos );
-
-                //set exchangeRecycleradapter to cryptoCurrencies spinner
-                cSpinner.setAdapter(cryptosAdapter);
-
-
-
-                //create arrayadapter using worldcurrencies string array
-                ArrayAdapter<String> worldAdapter = new ArrayAdapter<String>(context, R.layout.spinner_item, worldCurr );
-
-                //set exchangeRecycleradapter to worldCurrencies spinner
-                wSpinner.setAdapter(worldAdapter);
-
-
-                //set onclicklistener for cancel button
-                cancelBtn.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        //dismiss dialog
-                        dialog.dismiss();
-                    }
-                });
-
-
-
-                //set onclicklistener for save button
-                saveBtn.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-//                        Toast.makeText(getApplicationContext(), "Save btn clicked\nCrypto" + cSpinner.getSelectedItem().toString()
-//                                +"\nWorld: "+wSpinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
-
-
-                        //save exchange card
-                        saveExchangeCard(cSpinner.getSelectedItem().toString(), wSpinner.getSelectedItem().toString());
-
-
-
-                        dialog.dismiss();
-
-                        //refresh exchange card to include newly added card
-                        refresh();
-
-
-
-                    }
-                });
-
-                //show dialog
-                dialog.show();
+                addCardDialog();
             }
-
 
         });
 
@@ -228,57 +126,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void onClick(View view, int position) {
 
-
-                //get exchange from exchangeRecycleradapter using position of item clicked
-                Exchange exc = exchangeRecycleradapter.getItem(position);
-
-
-                //log position clicked
-//               Log.e("onClick","crypto position: "+ position);
-
-                //intent to start conversion activity
-                Intent intent = new Intent(context, ConversionActivity.class);
-
-                //create bundle
-                Bundle bundle = new Bundle();
-
-                //put exchange details in bundle
-                bundle.putString(ExchangeEntry.COLUMN_EXCHANGE_WORLD, exc.getWorldCurrency());
-                bundle.putString(ExchangeEntry.COLUMN_EXCHANGE_CRYPTO, exc.getCryptoCurrency());
-                bundle.putDouble("rate", exc.getRate());
-
-                //add bundle to intent
-                intent.putExtras(bundle);
-
-
-                //start conversion activity
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                    Bundle trans_bundle = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
-//                    startActivity(intent, trans_bundle);
-//                }else{
-                    startActivity(intent);
-//                }
-
-
-
-
+                openConversionActivity(position);
 
             }
 
             @Override
             public void onLongClick(View view, final int position) {
                final Exchange exc = exchangeRecycleradapter.getItem(position);
-//                Toast.makeText(getApplicationContext(), "OnLongClick:\ncrypto: "+ exc.getCryptoCurrency() +"\nworld: "+exc.getWorldCurrency()+"\nRate: "+ exc.getRate(), Toast.LENGTH_LONG).show();
-//
-//                Log.e("onLongClick","crypto: "+ exc.getCryptoCurrency() +"\nworld: "+exc.getWorldCurrency()+"\nRate: "+ exc.getRate());
-//                Log.e("onLongClick","crypto: "+ position);
 
-                final AlertDialog.Builder builder;
-//                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-//                    builder = new AlertDialog.Builder(context);
-//                }else{
-                    builder = new AlertDialog.Builder(context);
-//                }
+                final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
                 builder.setTitle("Delete")
                         .setMessage("Delete "+exc.getCryptoCurrency()+"-"+exc.getWorldCurrency() +" exchange card?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -328,13 +185,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }else {
 
 
-
             // show no internet status
             exchangeRecyclerView.setVisibility(View.VISIBLE);
-//            emptyView.setVisibility(View.GONE);
-//            progressBar.setVisibility(View.GONE);
+
             noExchangeView.setVisibility(View.GONE);
-//            statusTextView.setVisibility(View.VISIBLE);
+
             swipeRefreshLayout.setRefreshing(false);
 
             Toast.makeText(this, "Cant load feed", Toast.LENGTH_SHORT).show();
@@ -352,7 +207,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void onRefresh() {
 
-
                 refresh();
             }
         });
@@ -363,8 +217,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
-
 
         return true;
     }
@@ -410,11 +262,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }else{
 
             exchangeRecyclerView.setVisibility(View.VISIBLE);
-//            emptyView.setVisibility(View.GONE);
-//            progressBar.setVisibility(View.GONE);
-            noExchangeView.setVisibility(View.GONE);
-//            statusTextView.setVisibility(View.VISIBLE);
 
+            noExchangeView.setVisibility(View.GONE);
 
             getLoaderManager().restartLoader(1, null, this);
 
@@ -481,6 +330,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         }
 
+        c.close();
+
     }
 
 
@@ -511,7 +362,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public Loader<ArrayList<Exchange>> onCreateLoader(int i, Bundle bundle) {
-//        Toast.makeText(this, "Loader creation starts", Toast.LENGTH_LONG).show();
         oldExchange = ExchangeUtils.getExchangeListFromDb(context.getContentResolver());
 
         return new ExchangeLoader(this);
@@ -521,7 +371,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<ArrayList<Exchange>> loader, ArrayList<Exchange> exchanges) {
-//        progressBar.setVisibility(View.GONE);
 
         if (exchanges != null) {
 
@@ -532,17 +381,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 exchangeRecycleradapter.addAll(exchanges);
 
                 exchangeRecyclerView.setVisibility(View.VISIBLE);
-//                emptyView.setVisibility(View.GONE);
-//                progressBar.setVisibility(View.GONE);
-//                statusTextView.setVisibility(View.GONE);
-                noExchangeView.setVisibility(View.GONE);
 
-//                Toast.makeText(this, "Exchange rates refreshed", Toast.LENGTH_SHORT).show();
+                noExchangeView.setVisibility(View.GONE);
 
 
                 Calendar calendar = Calendar.getInstance();
-
-
                 long date = calendar.getTime().getTime();
 
                 String dateString = getDateString(date);
@@ -556,12 +399,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             }else{
 
-//                exchangeRecyclerView.setVisibility(View.GONE);
-//                emptyView.setVisibility(View.GONE);
-//                progressBar.setVisibility(View.GONE);
-//                statusTextView.setVisibility(View.GONE);
+
                 noExchangeView.setVisibility(View.VISIBLE);
-//                Toast.makeText(this, "Cant refresh feed", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -571,20 +410,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             exchangeRecyclerView.setVisibility(View.VISIBLE);
             Toast.makeText(this, "Cant refresh feed", Toast.LENGTH_SHORT).show();
 
-//            emptyView.setVisibility(View.VISIBLE);
-//            progressBar.setVisibility(View.GONE);
-//            statusTextView.setVisibility(View.GONE);
             noExchangeView.setVisibility(View.GONE);
 
         }
 
         swipeRefreshLayout.setRefreshing(false);
-
-
-
-
-
-//        ExchangeUtils.updateExchangeRate(exchangeRecycleradapter.getAllExchanges());
 
     }
 
@@ -597,11 +427,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     public String getDateString(long dateInTimeMillis) {
         Date date = new Date(dateInTimeMillis);
-//        String dateString = "";
 
         String format = "dd MMM, yyyy hh:mm:ss a";
         SimpleDateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
-        // System.err.format("%40s %s\n", format, dateFormat.format(date));
 
 
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+1"));
@@ -617,13 +445,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         editor.apply();
 
-        Log.e("UpdateTime--write", "last updated: "+ date);
+
     }
 
 
     public String getUpdateTime(){
         SharedPreferences sharedPreferences = getSharedPreferences("cryptoxchange", Context.MODE_PRIVATE);
-
 
         return sharedPreferences.getString("lastUpdate","");
     }
@@ -639,6 +466,118 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
 
+    private void addCardDialog() {
+
+
+        //instantiate a new dialog
+        final Dialog dialog = new Dialog(context);
+
+        //dialog shouldnt disappear when outer screen is clicked/pressed
+        dialog.setCancelable(false);
+
+        //set custom view for dialog
+        dialog.setContentView(R.layout.dialog_add_exchange);
+
+
+        //instantiate spinners for cryptocurrencies and worldcurrencies respectively
+        final Spinner cSpinner = dialog.findViewById(R.id.spinner_crypto);
+        final Spinner wSpinner = dialog.findViewById(R.id.spinner_world);
+
+
+        //Instantiate buttons
+        Button cancelBtn = (Button) dialog.findViewById(R.id.btn_cancel);
+        Button saveBtn = (Button) dialog.findViewById(R.id.btn_add);
+
+
+        //get String list of cryptocurrencies from db
+        ArrayList<String> crypt = CurrencyUtils.getCryptoCurrencies(context.getContentResolver());
+
+        //convert list to string array
+        String[] cryptos = crypt.toArray(new String[crypt.size()]);
+
+
+        //get String list of worldcurrencies from db
+        ArrayList<String> world = CurrencyUtils.getWorldCurrencies(context.getContentResolver());
+
+        //convert list to string array
+        String[] worldCurr = world.toArray(new String[world.size()]);
+
+
+        //create arrayadapter using cryptocurrencies string array
+        ArrayAdapter<String> cryptosAdapter = new ArrayAdapter<String>(context, R.layout.spinner_item, cryptos);
+
+        //set exchangeRecycleradapter to cryptoCurrencies spinner
+        cSpinner.setAdapter(cryptosAdapter);
+
+
+        //create arrayadapter using worldcurrencies string array
+        ArrayAdapter<String> worldAdapter = new ArrayAdapter<String>(context, R.layout.spinner_item, worldCurr);
+
+        //set exchangeRecycleradapter to worldCurrencies spinner
+        wSpinner.setAdapter(worldAdapter);
+
+
+        //set onclicklistener for cancel button
+        cancelBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //dismiss dialog
+                dialog.dismiss();
+            }
+        });
+
+
+        //set onclicklistener for save button
+        saveBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                        Toast.makeText(getApplicationContext(), "Save btn clicked\nCrypto" + cSpinner.getSelectedItem().toString()
+//                                +"\nWorld: "+wSpinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
+
+
+                //save exchange card
+                saveExchangeCard(cSpinner.getSelectedItem().toString(), wSpinner.getSelectedItem().toString());
+
+
+                dialog.dismiss();
+
+                //refresh exchange card to include newly added card
+                refresh();
+
+
+            }
+        });
+
+        //show dialog
+        dialog.show();
+
+
+    }
+
+    private void openConversionActivity(int position) {
+
+        //get exchange from exchangeRecycleradapter using position of item clicked
+        Exchange exc = exchangeRecycleradapter.getItem(position);
+
+        //intent to start conversion activity
+        Intent intent = new Intent(context, ConversionActivity.class);
+
+        //create bundle
+        Bundle bundle = new Bundle();
+
+        //put exchange details in bundle
+        bundle.putString(ExchangeEntry.COLUMN_EXCHANGE_WORLD, exc.getWorldCurrency());
+        bundle.putString(ExchangeEntry.COLUMN_EXCHANGE_CRYPTO, exc.getCryptoCurrency());
+        bundle.putDouble("rate", exc.getRate());
+
+        //add bundle to intent
+        intent.putExtras(bundle);
+
+
+        //start conversion activity
+        startActivity(intent);
+    }
 
 
 }

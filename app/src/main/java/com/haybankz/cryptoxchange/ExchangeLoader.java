@@ -8,7 +8,7 @@ import com.haybankz.cryptoxchange.utils.ExchangeUtils;
 
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * Created by LENOVO on 10/3/2017.
@@ -16,22 +16,14 @@ import java.util.List;
 
 public class ExchangeLoader extends AsyncTaskLoader<ArrayList<Exchange>> {
 
-
-    private String mUrl;
-    private List<Exchange> mExchanges;
     Context mContext;
 
-    public ExchangeLoader(Context context, String url) {
-        super(context);
-        mContext = context;
-
-        mUrl = url;
-    }
 
     public ExchangeLoader(Context context) {
         super(context);
         mContext = context;
     }
+
 
     @Override
     public ArrayList<Exchange> loadInBackground() {
@@ -44,10 +36,5 @@ public class ExchangeLoader extends AsyncTaskLoader<ArrayList<Exchange>> {
     protected void onStartLoading() {
         forceLoad();
     }
-
-
-
-
-
 
 }

@@ -22,11 +22,6 @@ public class Exchange {
         this.rate = rate;
     }
 
-    public Exchange(int id, String cryptoCurrency, String worldCurrency) {
-        this.id = id;
-        this.cryptoCurrency = cryptoCurrency;
-        this.worldCurrency = worldCurrency;
-    }
 
     public int getId() {
         return id;

@@ -1,4 +1,19 @@
 <resources>
+
     <string name="app_name">CryptoXchange</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="add_card">Add Exchange Card</string>
+    <string name="crypto_currency">Cryptocurrency: </string>
+    <string name="world_currency">Worldcurrency: </string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="colon">:</string>
+    <string name="flag">Flag</string>
+    <string name="name">Name</string>
+    <string name="fullname">Full name</string>
+    <string name="no_saved_card">No saved card</string>
+    <string name="add_one_to_get_started">Add one to get started</string>
+    <string name="last_update">Last updated</string>
+    <string name="info">Info</string>
+
+
 </resources>

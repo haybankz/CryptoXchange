@@ -1,130 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingStart="16dp"
+    android:orientation="vertical"
+    android:paddingBottom="16sp"
     android:paddingEnd="16dp"
-    android:paddingBottom="16sp">
+    android:paddingStart="16dp">
 
     <RelativeLayout
+        android:id="@+id/layout_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/layout_title"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="10dp"
         android:gravity="center">
 
         <TextView
+            android:id="@+id/text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/text_title"
-            android:gravity="center"
-            android:text="Add Exchange Card"
-            android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:text="@string/add_card"
             android:textColor="@color/colorPrimary"
-            android:textSize="18sp"
-            android:background="?android:attr/selectableItemBackground"/>
-
-        <!--<ImageView-->
-            <!--android:layout_width="24dp"-->
-            <!--android:layout_height="24dp"-->
-            <!--android:padding="1dp"-->
-            <!--android:id="@+id/img_info"-->
-            <!--android:src="@android:drawable/ic_menu_info_details"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:contentDescription="@string/app_name"-->
-            <!--android:clickable="true"/>-->
+            android:textSize="18sp" />
 
 
     </RelativeLayout>
 
 
-
     <LinearLayout
+        android:id="@+id/layout_crypto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/layout_crypto"
-        android:orientation="horizontal"
-        android:layout_marginBottom="20dp"
         android:layout_below="@id/layout_title"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
         android:padding="5dp">
 
-        <TextView android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <TextView
             android:id="@+id/text_add_crypto"
-            android:text="Select crypto currency:"
-            android:textSize="20sp"
-            android:textColor="@color/colorPrimary"/>
-
-        <Spinner android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/crypto_currency"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
+
+        <Spinner
             android:id="@+id/spinner_crypto"
-            android:layout_marginStart="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
+            android:layout_marginStart="10dp"
             android:foreground="@drawable/spinner_background" />
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layout_world"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/layout_world"
-        android:orientation="horizontal"
         android:layout_below="@id/layout_crypto"
         android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
         android:padding="5dp">
 
-        <TextView android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <TextView
             android:id="@+id/text_add_world"
-            android:text="Select world currency:"
-            android:textSize="20sp"
-            android:textColor="@color/colorPrimary"/>
-
-        <Spinner android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/world_currency"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
+
+        <Spinner
             android:id="@+id/spinner_world"
-            android:layout_marginStart="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
+            android:layout_marginStart="10dp"
             android:foreground="@drawable/spinner_background" />
 
     </LinearLayout>
 
 
-
     <LinearLayout
+        android:id="@+id/layout_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/layout_button"
-        android:orientation="horizontal"
         android:layout_below="@id/layout_world"
         android:gravity="center"
+        android:orientation="horizontal"
         android:padding="5dp">
 
         <Button
+            android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_cancel"
-            android:text="Cancel"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_marginEnd="25dp"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="25dp" />
+            android:text="@string/cancel"
+            style="?android:attr/buttonBarButtonStyle"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <Button
+            android:id="@+id/btn_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_add"
-            android:text="Save"
-            android:layout_marginStart="10dp"
             android:layout_marginEnd="25dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+            android:layout_marginStart="10dp"
+            style="?android:attr/buttonBarButtonStyle"
+            android:text="@string/save"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </LinearLayout>
-
 
 
 </RelativeLayout>

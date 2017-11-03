@@ -39,6 +39,8 @@
 
         <activity android:name=".ui.InfoActivity"/>
 
+
     </application>
+
 
 </manifest>

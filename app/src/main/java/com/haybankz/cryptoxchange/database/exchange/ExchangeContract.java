@@ -11,8 +11,8 @@ public class ExchangeContract {
 
     private ExchangeContract(){}
 
-    public static final String PATH_EXCHANGE = "exchange";
-    public static final Uri BASE_CONTENT_URI = Uri.parse("content://com.haybankz.cryptoxchange.exchange");
+    static final String PATH_EXCHANGE = "exchange";
+    static final Uri BASE_CONTENT_URI = Uri.parse("content://com.haybankz.cryptoxchange.exchange");
 
 
     public static final class ExchangeEntry implements BaseColumns {
@@ -23,8 +23,6 @@ public class ExchangeContract {
         public final static String COLUMN_EXCHANGE_CRYPTO = "crypto_currency";
         public final static String COLUMN_EXCHANGE_WORLD = "world_currency";
         public final static String COLUMN_EXCHANGE_RATE = "rate";
-
-
 
         public final static Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_EXCHANGE);
 

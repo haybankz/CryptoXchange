@@ -45,22 +45,14 @@ public class InfoActivity extends AppCompatActivity {
         TextView rowNoHeader = tableHeader.findViewById(R.id.row_no);
         TextView nameHeader = tableHeader.findViewById(R.id.row_name);
         TextView fullnameHeader = tableHeader.findViewById(R.id.row_full_name);
-//        TextView categoryHeader = tableHeader.findViewById(R.id.row_category);
 
 
-
-        //Set text size for column headers
-        rowNoHeader.setTextSize(16);
-//        nameHeader.setTextSize(16);
-//        fullnameHeader.setTextSize(16);
-//        categoryHeader.setTextSize(16);
 
 
         //set column header text
-        rowNoHeader.setText("Flag");
-        nameHeader.setText("Name");
-        fullnameHeader.setText("Fullname");
-//        categoryHeader.setText("Category");
+        rowNoHeader.setText(getResources().getText(R.string.flag));
+        nameHeader.setText(getResources().getText(R.string.name));
+        fullnameHeader.setText(getResources().getText(R.string.fullname));
 
         //set background color for column header
         tableHeader.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -68,8 +60,6 @@ public class InfoActivity extends AppCompatActivity {
         //add header to table
         headerLayout.addView(tableHeader);
 
-        //count to populate rows of serial number(SN) column
-        int count = 1;
 
 
         //for each currency in currencies arraylist
@@ -85,10 +75,8 @@ public class InfoActivity extends AppCompatActivity {
 //            TextView categoryTv = tableRow.findViewById(R.id.row_category);
 
             //Set cells values
-//            noTv.setText(String.valueOf(count));
             nameTv.setText(currency.getName());
             fullnameTv.setText(currency.getFullname());
-//            categoryTv.setText(currency.getCategory());
 
 
             Picasso.with(this.getApplicationContext())
@@ -99,8 +87,6 @@ public class InfoActivity extends AppCompatActivity {
             //add row to table
             tableLayout.addView(tableRow);
 
-            //increment row number by 1
-            count++;
         }
 
     }

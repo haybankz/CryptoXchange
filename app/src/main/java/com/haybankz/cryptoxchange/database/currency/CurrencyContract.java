@@ -11,8 +11,8 @@ public class CurrencyContract {
 
     private CurrencyContract(){}
 
-    public static final String PATH_CURRENCIES = "currencies";
-    public static final Uri BASE_CONTENT_URI = Uri.parse("content://com.haybankz.cryptoxchange.currency");
+    static final String PATH_CURRENCIES = "currencies";
+    static final Uri BASE_CONTENT_URI = Uri.parse("content://com.haybankz.cryptoxchange.currency");
 
     public static final class CurrencyEntry implements BaseColumns {
 
@@ -21,8 +21,6 @@ public class CurrencyContract {
         public final static String _ID = BaseColumns._ID;
         public final static String COLUMN_CURRENCY_NAME = "name";
         public final static String COLUMN_CURRENCY_FULLNAME = "fullname";
-
-
         public final static String COLUMN_CURRENCY_CATEGORY = "category";
 
 

@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.support.annotation.Nullable;
 
 import com.haybankz.cryptoxchange.database.exchange.ExchangeContract.ExchangeEntry;
 import com.haybankz.cryptoxchange.model.Exchange;
@@ -62,6 +63,7 @@ public class ExchangeUtils {
     }
 
 
+    @Nullable
     public static Exchange searchMapForRate(Exchange exchange, Map<String, Map<String, Double>> exchangeRateMap) {
 
         Map<String, Double> rateMap = exchangeRateMap.get(exchange.getCryptoCurrency());
@@ -76,6 +78,7 @@ public class ExchangeUtils {
     }
 
 
+    @Nullable
     public static ArrayList<Exchange> getExchangeRates(Context context) {
 
         List<Exchange> oldExchangeRate = getExchangeListFromDb(context.getContentResolver());
@@ -109,11 +112,9 @@ public class ExchangeUtils {
     }
 
 
-//    public static void updateExchangeRate(ArrayList<Exchange> exchanges ){
 
         public static void updateExchangeRate(Exchange exchange ){
 
-//        for(Exchange exchange : exchanges){
 
             ContentValues value = new ContentValues();
             value.put(ExchangeEntry.COLUMN_EXCHANGE_RATE, exchange.getRate());
@@ -124,11 +125,7 @@ public class ExchangeUtils {
 
             mContentResolver.update(ExchangeEntry.CONTENT_URI, value, selections, selectionArgs);
 
-
-//        }
-
-
-    }
+        }
 
 
 }

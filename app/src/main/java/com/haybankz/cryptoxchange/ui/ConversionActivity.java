@@ -73,18 +73,6 @@ public class ConversionActivity extends AppCompatActivity {
         worldImage = (ImageView) findViewById(R.id.img_conv_world);
 
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-//            Slide slide = new Slide(Gravity.TOP);
-//            slide.addTarget(R.id.edit_cryptocurr);
-//            slide.setInterpolator(AnimationUtils.loadInterpolator(this,
-//                    android.R.interpolator.linear_out_slow_in));
-//            slide.setDuration(100000);
-//            getWindow().setEnterTransition(slide);
-//        }
-
-
-
-
 
         //set input type for both edittext
         cryptocurrText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);

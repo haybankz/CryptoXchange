@@ -7,10 +7,10 @@ import com.haybankz.cryptoxchange.database.currency.CurrencyContract.CurrencyEnt
 
 public class Currency {
 
-    int id;
-    String name;
-    String fullname;
-    String category;
+    private int id;
+    private String name;
+    private String fullname;
+    private String category;
 
 
 

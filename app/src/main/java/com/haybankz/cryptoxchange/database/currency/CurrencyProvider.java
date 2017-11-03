@@ -153,6 +153,7 @@ public class CurrencyProvider extends ContentProvider {
 
     }
 
+    @Nullable
     private Uri insertExchange(Uri uri, ContentValues values){
 
         SQLiteDatabase database = dbHelper.getWritableDatabase();
